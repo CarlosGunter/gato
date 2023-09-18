@@ -1,0 +1,39 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 20%;
+}
+
+.turn{
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.cell_turn{
+  width: 70px;
+  height: 70px;
+  border-radius: 20%;
+  border: solid 2px #fff;
+
+  display: grid;
+  place-items:center;
+  transition: 100ms;
+
+  :hover {
+    background: #04799c;
+  }
+}
+.cell_turn-select{
+  background:#04799c;
+
+  :hover {
+    background: none;
+  }
+}

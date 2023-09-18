@@ -1,0 +1,17 @@
+.table{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+
+.cell{
+  width: 100px;
+  height: 100px;
+  border: solid 2px #fff;
+  border-radius: 20%;
+  cursor: default;
+
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
