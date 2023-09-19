@@ -80,7 +80,7 @@ const started = (match, assign) => {
 
   let move
   if (pcValues.length === 0 && userValues.length === 1) {
-    if (userValues[0] !== 4) move = 4
+    if (userValues[0] !== 4) move = selRandom(include(nullValues, [4, ...CORNERS]))
     if (userValues[0] === 4) move = selRandom(CORNERS)
   } else if (
     pcValues.length === 1 &&
@@ -90,7 +90,8 @@ const started = (match, assign) => {
       move = selRandom(notInclude(CORNERS, userValues))
     }
     if (include(userValues, MIDDLES)) {
-      move = 8 // Debe ser cualquier menos la contraparte de user
+      const middle = notInclude(userValues, [4, ...MIDDLES])
+      move = selRandom(include(nullValues, [...CORNERS, ...middle]))
     }
   } else if (pcWin.length > 0) {
     move = selRandom(pcWin)
