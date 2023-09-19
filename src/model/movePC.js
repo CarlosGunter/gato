@@ -1,13 +1,4 @@
-const WIN_COMBINATIONS = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
-]
+import { WIN_COMBINATIONS, CORNERS, MIDDLES } from '../assets/dictionary'
 
 export const movePC = ({ match, assign }) => {
   let copyGame
@@ -16,6 +7,12 @@ export const movePC = ({ match, assign }) => {
     : copyGame = startPC(match, assign)
 
   return copyGame
+}
+
+const startPC = (match, assign) => {
+  const move = selRandom([4, ...CORNERS])
+  match.splice(move, 1, assign.current.machine)
+  return match
 }
 
 const started = (match, assign) => {
@@ -29,89 +26,113 @@ const started = (match, assign) => {
 
   const userValues = [...values(assign.current.user)]
   const pcValues = [...values(assign.current.machine)]
-
-  const noIntersections = (forWin, enemyPosition) => {
-    const moves = []
-    forWin.forEach(value => {
-      if (!enemyPosition.includes(value)) moves.push(value)
-    })
-    return moves
-  }
+  const nullValues = [...values(null)]
 
   const possibleWin = (arr, positions, enemyPosition) => {
     const iTwo = []
-    arr.forEach((combo, index) => {
+    arr.forEach((combo) => {
       let flag = 0
       positions.forEach(p => {
         if (combo.includes(p)) flag++
       })
-      if (flag === 2) iTwo.push(index)
+      if (flag === 2) iTwo.push(combo)
     })
 
-    let forWin = []
-    iTwo.forEach(i => {
-      positions.forEach(p => {
-        arr[i].forEach(v => {
-          if (v !== p) forWin.push(v)
-        })
-      })
+    let toWin = []
+    iTwo.forEach(combo => {
+      toWin.push(notInclude(combo, positions))
     })
-    forWin = noIntersections(forWin, enemyPosition)
-    return forWin
+    toWin = toWin.flat()
+
+    toWin = notInclude(toWin, enemyPosition)
+    return toWin
   }
 
   const pcWin = possibleWin(WIN_COMBINATIONS, pcValues, userValues)
   const userWin = possibleWin(WIN_COMBINATIONS, userValues, pcValues)
 
-  const include = (arr, positions) => {
-    let inc
+  const isTrick = (arr, positions, enemyPosition) => {
+    const iOne = []
+    arr.forEach(combo => {
+      const p = include(combo, positions)
+      if (p.length > 0) iOne.push(combo)
+    })
 
-    positions.forEach(v => {
-      if (Array.isArray(arr[0])) {
-        arr.forEach((combo, index) => {
-          if (combo.includes(v)) {
-            inc.push(index)
-            return inc
-          }
-        })
-      } else if (arr.includes(v)) {
-        inc = true
-        return inc
+    const isContentCombo = []
+    iOne.forEach(trickCombo => {
+      if (notInclude(trickCombo, enemyPosition).length === 3) {
+        isContentCombo.push(trickCombo)
       }
     })
-    return inc
-  }
 
-  const selRandom = (arr) => {
-    const i = Math.floor(Math.random() * arr.length)
-    return arr[i]
+    let moveTrick = []
+    isContentCombo.forEach((a, indexA) => {
+      isContentCombo.forEach((combo, indexB) => {
+        combo.forEach(b => {
+          if (indexA > indexB && a.includes(b)) moveTrick.push(b)
+        })
+      })
+    })
+    moveTrick = notInclude([...moveTrick], positions)
+
+    return moveTrick
   }
 
   let move
   if (pcValues.length === 0 && userValues.length === 1) {
     if (userValues[0] !== 4) move = 4
-    if (userValues[0] === 4) move = selRandom([0, 2, 6, 8])
+    if (userValues[0] === 4) move = selRandom(CORNERS)
   } else if (
     pcValues.length === 1 &&
     userValues.length === 1 &&
     match[4] === assign.current.machine) {
-    if (include(userValues, [0, 2, 6, 8])) {
-      move = selRandom(noIntersections([0, 2, 6, 8], userValues))
+    if (include(userValues, CORNERS)) {
+      move = selRandom(notInclude(CORNERS, userValues))
     }
-    if (include(userValues, [1, 3, 5, 7])) {
+    if (include(userValues, MIDDLES)) {
       move = 8 // Debe ser cualquier menos la contraparte de user
     }
   } else if (pcWin.length > 0) {
     move = selRandom(pcWin)
   } else if (userWin.length > 0) {
     move = selRandom(userWin)
+  } else if (isTrick(WIN_COMBINATIONS, userValues, pcValues).length > 1) {
+    const pcTrick = isTrick(WIN_COMBINATIONS, userValues, pcValues)
+    if (include(pcTrick, CORNERS)) {
+      move = selRandom(include(pcTrick, CORNERS))
+    } else {
+      move = selRandom(pcTrick)
+    }
+  } else if (isTrick(WIN_COMBINATIONS, pcValues, userValues).length > 1) {
+    const userTricks = isTrick(WIN_COMBINATIONS, pcValues, userValues)
+    move = selRandom(userTricks)
+  } else {
+    move = selRandom(nullValues)
   }
 
   match.splice(move, 1, assign.current.machine)
   return match
 }
 
-const startPC = (match, assign) => {
-  match[4] = assign.current.machine // Debe ser aleatorio entre esquina y centro
-  return match
+const include = (ref, positions) => {
+  const inc = []
+  positions.forEach(v => {
+    if (ref.includes(v)) {
+      inc.push(v)
+    }
+  })
+  return inc
+}
+
+const notInclude = (ref, positions) => {
+  const moves = []
+  ref.forEach(value => {
+    if (!positions.includes(value)) moves.push(value)
+  })
+  return moves
+}
+
+const selRandom = (arr) => {
+  const i = Math.floor(Math.random() * arr.length)
+  return arr[i]
 }

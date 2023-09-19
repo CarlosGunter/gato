@@ -12,6 +12,7 @@ export default function Table ({ currentTurn, setTurn, assign }) {
     const gameMachine = movePC({ match, assign })
     setMatch(gameMachine)
     const isWin = checkWin(gameMachine)
+    if (isWin === 1) return setWinner(1)
     isWin ? setWinner(isWin) : setTurn(TURNS.User)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTurn])
@@ -22,6 +23,7 @@ export default function Table ({ currentTurn, setTurn, assign }) {
     copyGame[index] = assign.current.user
     setMatch(copyGame)
     const isWin = checkWin(copyGame)
+    if (isWin === 1) return setWinner(1)
     isWin ? setWinner(isWin) : setTurn(TURNS.Machine)
   }
 
@@ -39,6 +41,7 @@ export default function Table ({ currentTurn, setTurn, assign }) {
       (game[8] === game[2] && game[8] === game[5]) ||
       (game[8] === game[6] && game[8] === game[7])
     )) return game[8]
+    if (!game.includes(null)) return 1
     return false
   }
 
