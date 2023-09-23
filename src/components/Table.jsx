@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { X, Circle } from '../assets/svg'
 import { TURNS, SYMBOLS } from '../assets/dictionary'
 import { movePC } from '../model/movePC'
 import './table.css'
 
-export default function Table ({ currentTurn, setTurn, assign }) {
-  const [match, setMatch] = useState(Array(9).fill(null))
-  const [win, setWinner] = useState(false)
+export default function Table ({ currentTurn, setTurn, assign, match, setMatch, win, setWinner }) {
   useEffect(() => {
     if (currentTurn === TURNS.User) return
     const gameMachine = movePC({ match, assign })
@@ -15,7 +13,7 @@ export default function Table ({ currentTurn, setTurn, assign }) {
     if (isWin === 1) return setWinner(1)
     isWin ? setWinner(isWin) : setTurn(TURNS.User)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTurn])
+  }, [currentTurn, win])
 
   const moveUser = (isValid, index) => {
     if (isValid || currentTurn === TURNS.Machine || win) return

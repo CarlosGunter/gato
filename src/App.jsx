@@ -8,10 +8,8 @@ function App () {
   const [currentTurn, setTurn] = useState()
   const [symbol, setSymbol] = useState()
   const start = (symbol && currentTurn)
-  const assign = useRef({
-    user: '',
-    machine: ''
-  })
+  const assign = useRef({})
+  const firstTurn = useRef()
   return (
     <>
       <header>
@@ -22,12 +20,15 @@ function App () {
           ? <Game
             currentTurn={currentTurn}
             setTurn={setTurn}
+            setSymbol={setSymbol}
             assign={assign}
+            firstTurn={firstTurn}
           ></Game>
           : <Create
             setTurn={setTurn}
             setSymbol={setSymbol}
             assign={assign}
+            firstTurn={firstTurn}
           ></Create>
       }
     </>

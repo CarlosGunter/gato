@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+h1 .icon {
+  width: 45px;
+  height: 45px;
+}
 .icon {
   width: 70px;
   height: 70px;
@@ -30,10 +34,32 @@
     background: #04799c;
   }
 }
-.cell_turn-select{
-  background:#04799c;
 
-  :hover {
-    background: none;
+.stadistics {
+  display:flex ;  
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 10px;
+  font-size: 25px;
+  .icon {
+    width: 90px;
+    height: 90px;
   }
+}
+.machine_turn {
+  color:#a5a5a5;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  cursor: default;
+}
+.button {
+  background: #04799c;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 10%;
 }

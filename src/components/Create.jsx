@@ -1,7 +1,7 @@
 import { TURNS, SYMBOLS } from '../assets/dictionary.js'
 import { User, Machine, X, Circle } from '../assets/svg.jsx'
 
-export default function Create ({ setTurn, setSymbol, assign }) {
+export default function Create ({ setTurn, setSymbol, assign, firstTurn }) {
   function click (symb) {
     if (symb === SYMBOLS.x) {
       assign.current = {
@@ -24,10 +24,18 @@ export default function Create ({ setTurn, setSymbol, assign }) {
     <>
       <h2>¿Quién iniciará la partida?</h2>
       <section className='turn'>
-        <div className="cell_turn" onClick={() => { setTurn(TURNS.User) }}>
+        <div className="cell_turn"
+        onClick={() => {
+          firstTurn.current = TURNS.User
+          setTurn(TURNS.User)
+        }}>
           <User></User>
         </div>
-        <div className="cell_turn" onClick={() => { setTurn(TURNS.Machine) }}>
+        <div className="cell_turn"
+        onClick={() => {
+          firstTurn.current = TURNS.Machine
+          setTurn(TURNS.Machine)
+        }}>
           <Machine></Machine>
         </div>
       </section>
