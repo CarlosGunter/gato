@@ -1,4 +1,4 @@
-import { WIN_COMBINATIONS, CORNERS, MIDDLES } from '../assets/dictionary'
+import { WIN_COMBINATIONS, CORNERS, MIDDLES, DIAGONALS, CROSS, SQUARE } from '../assets/dictionary'
 
 export const movePC = ({ match, assign }) => {
   let copyGame
@@ -29,32 +29,18 @@ const started = (match, assign) => {
   const nullValues = [...values(null)]
 
   const possibleWin = (arr, positions, enemyPosition) => {
-    const iTwo = []
-    arr.forEach((combo) => {
-      let flag = 0
-      positions.forEach(p => {
-        if (combo.includes(p)) flag++
-      })
-      if (flag === 2) iTwo.push(combo)
-    })
-
-    let toWin = []
-    iTwo.forEach(combo => {
-      toWin.push(notInclude(combo, positions))
-    })
-    toWin = toWin.flat()
-
+    let toWin = restOfCombo(arr, positions, 1)
     toWin = notInclude(toWin, enemyPosition)
     return toWin
   }
 
-  const pcWin = possibleWin(WIN_COMBINATIONS, pcValues, userValues)
-  const userWin = possibleWin(WIN_COMBINATIONS, userValues, pcValues)
+  const pcWin = [...possibleWin(WIN_COMBINATIONS, pcValues, userValues)]
+  const userWin = [...possibleWin(WIN_COMBINATIONS, userValues, pcValues)]
 
   const isTrick = (arr, positions, enemyPosition) => {
     const iOne = []
     arr.forEach(combo => {
-      const p = include(combo, positions)
+      const p = include(positions, combo)
       if (p.length > 0) iOne.push(combo)
     })
 
@@ -68,9 +54,11 @@ const started = (match, assign) => {
     let moveTrick = []
     isContentCombo.forEach((a, indexA) => {
       isContentCombo.forEach((combo, indexB) => {
-        combo.forEach(b => {
-          if (indexA > indexB && a.includes(b)) moveTrick.push(b)
-        })
+        if (indexA > indexB) {
+          combo.forEach(b => {
+            if (a.includes(b)) moveTrick.push(b) // revisar
+          })
+        }
       })
     })
     moveTrick = notInclude([...moveTrick], positions)
@@ -80,33 +68,55 @@ const started = (match, assign) => {
 
   let move
   if (pcValues.length === 0 && userValues.length === 1) {
-    if (userValues[0] !== 4) move = selRandom(include(nullValues, [4, ...CORNERS]))
-    if (userValues[0] === 4) move = selRandom(CORNERS)
+    if (userValues[0] === 4) {
+      move = selRandom(CORNERS)
+    } else if (include(CORNERS, userValues).length > 0) {
+      move = 4
+    } else if (include(MIDDLES, userValues).length > 0) {
+      const goodTurn = restOfCombo([...CROSS, ...SQUARE], userValues, 2)
+      move = selRandom(goodTurn)
+    }
   } else if (
     pcValues.length === 1 &&
-    userValues.length === 1 &&
-    match[4] === assign.current.machine) {
-    if (include(userValues, CORNERS)) {
-      move = selRandom(notInclude(CORNERS, userValues))
-    }
-    if (include(userValues, MIDDLES)) {
-      const middle = notInclude(userValues, [4, ...MIDDLES])
-      move = selRandom(include(nullValues, [...CORNERS, ...middle]))
+    userValues.length === 1) {
+    if (match[4] === assign.current.machine) {
+      if (include(CORNERS, userValues).length > 0) {
+        move = selRandom(nullValues)
+      } else {
+        const badTurn = restOfCombo(CROSS, [4, ...userValues], 1)
+        const middle = notInclude(MIDDLES, badTurn)
+        move = selRandom([...CORNERS, ...middle])
+      }
+    } else if (match[4] === assign.current.user) {
+      const goodTurn = restOfCombo(DIAGONALS, [4, ...pcValues], 1)
+      move = goodTurn[0]
+    } else if (include(CORNERS, userValues).length > 0) {
+      move = selRandom(include(CORNERS, nullValues))
+    } else if (include(MIDDLES, userValues).length > 0) {
+      if (restOfCombo(SQUARE, nullValues, 1).length === 1) {
+        let goodTurn = restOfCombo(SQUARE, pcValues, 2)
+        goodTurn = notInclude(goodTurn, userValues)
+        move = selRandom([4, ...goodTurn])
+      } else {
+        move = selRandom(restOfCombo(DIAGONALS, pcValues, 3))
+      }
     }
   } else if (pcWin.length > 0) {
     move = selRandom(pcWin)
   } else if (userWin.length > 0) {
     move = selRandom(userWin)
-  } else if (isTrick(WIN_COMBINATIONS, userValues, pcValues).length > 1) {
-    const pcTrick = isTrick(WIN_COMBINATIONS, userValues, pcValues)
-    if (include(pcTrick, CORNERS)) {
-      move = selRandom(include(pcTrick, CORNERS))
+  } else if (isTrick(WIN_COMBINATIONS, pcValues, userValues).length > 0) {
+    const pcTrick = isTrick(WIN_COMBINATIONS, pcValues, userValues)
+    move = selRandom(pcTrick)
+  } else if (isTrick(WIN_COMBINATIONS, userValues, pcValues).length > 0) {
+    const userTrick = isTrick(WIN_COMBINATIONS, userValues, pcValues)
+    if (restOfCombo(DIAGONALS, userTrick, 1).length === 1) {
+      move = selRandom(MIDDLES)
+    } else if (include(CORNERS, userTrick).length > 0) {
+      move = selRandom(include(CORNERS, userTrick))
     } else {
-      move = selRandom(pcTrick)
+      move = selRandom(userTrick)
     }
-  } else if (isTrick(WIN_COMBINATIONS, pcValues, userValues).length > 1) {
-    const userTricks = isTrick(WIN_COMBINATIONS, pcValues, userValues)
-    move = selRandom(userTricks)
   } else {
     move = selRandom(nullValues)
   }
@@ -115,22 +125,29 @@ const started = (match, assign) => {
   return match
 }
 
-const include = (ref, positions) => {
+const include = (positions, ref) => {
   const inc = []
   positions.forEach(v => {
-    if (ref.includes(v)) {
-      inc.push(v)
-    }
+    if (ref.includes(v)) inc.push(v)
   })
   return inc
 }
 
-const notInclude = (ref, positions) => {
+const notInclude = (positions, ref) => {
   const moves = []
-  ref.forEach(value => {
-    if (!positions.includes(value)) moves.push(value)
+  positions.forEach(value => {
+    if (!ref.includes(value)) moves.push(value)
   })
   return moves
+}
+
+const restOfCombo = (combos, ref, length) => {
+  const rest = []
+  combos.forEach(combo => {
+    const iTwo = notInclude(combo, ref)
+    if (iTwo.length === length) rest.push(iTwo)
+  })
+  return rest.flat()
 }
 
 const selRandom = (arr) => {
