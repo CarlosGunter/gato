@@ -110,7 +110,7 @@ const started = (match, assign) => {
     move = selRandom(pcTrick)
   } else if (isTrick(WIN_COMBINATIONS, userValues, pcValues).length > 0) {
     const userTrick = isTrick(WIN_COMBINATIONS, userValues, pcValues)
-    if (restOfCombo(DIAGONALS, userTrick, 1).length === 1) {
+    if (restOfCombo(DIAGONALS, userTrick, 1).length === 1 && match[4] === assign.current.machine) {
       move = selRandom(MIDDLES)
     } else if (include(CORNERS, userTrick).length > 0) {
       move = selRandom(include(CORNERS, userTrick))

@@ -6,11 +6,11 @@ import './table.css'
 
 export default function Table ({ currentTurn, setTurn, assign, match, setMatch, win, setWinner }) {
   useEffect(() => {
-    if (currentTurn === TURNS.User) return
+    if (currentTurn === TURNS.User || win) return
     const gameMachine = movePC({ match, assign })
     setMatch(gameMachine)
     const isWin = checkWin(gameMachine)
-    if (isWin === 1) return setWinner(1)
+    if (isWin === 1) setWinner(1)
     isWin ? setWinner(isWin) : setTurn(TURNS.User)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTurn, win])
