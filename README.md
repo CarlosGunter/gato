@@ -1,4 +1,5 @@
 # Juego del Gato
+[Jugar Ahora](https://carlosgunter.github.io/Gato/)
 
 Este es un proyecto donde un usuario puede jugar gato contra un algoritmo
 
