@@ -17,9 +17,9 @@ function App () {
   // Guarda el primer turno que seleccionó el usuario
   const firstTurn = useRef()
   return (
-    <>
+    <main className='main'>
       <header>
-        <h1><Hash></Hash>Gato</h1>
+        <h1 className='title'><Hash></Hash>Gato</h1>
       </header>
       {
         start
@@ -37,7 +37,7 @@ function App () {
             firstTurn={firstTurn}
           ></Create>
       }
-    </>
+    </main>
   )
 }
 

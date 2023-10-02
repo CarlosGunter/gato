@@ -1,13 +1,28 @@
 #root {
+  --color-prim: #1e90ff;
+
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
-h1 .icon {
-  width: 45px;
-  height: 45px;
+.main {
+  display: grid;
+  place-items: center;
+}
+
+.title {
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background: linear-gradient(91deg, #42d392, #647eff);
+
+  & .icon {
+    width: 45px;
+    height: 45px;
+    color: #42d392;
+  }
 }
 .icon {
   width: 70px;
@@ -31,25 +46,40 @@ h1 .icon {
   transition: 100ms;
 
   :hover {
-    background: #04799c;
+    background: var(--color-prim);
   }
 }
 
-.stadistics {
+.admin {
   display:flex ;  
   justify-content: center;
   align-items: center;
   gap: 20px;
-  padding: 10px;
   font-size: 25px;
+  margin-top: 10px;
   .icon {
     width: 90px;
     height: 90px;
   }
 }
 .machine_turn {
-  color:#a5a5a5;
+  color:#696969;
 }
+
+.stadistics {
+  display:flex;
+  gap: 15px;
+  padding: 5px;
+
+  .block {
+    font-size: 18px;
+    padding: 15px;
+    border: solid 1.5px var(--color-prim);
+    border-radius: 15px;
+  }
+  
+}
+
 
 .buttons {
   display: flex;
@@ -58,8 +88,8 @@ h1 .icon {
   cursor: default;
 }
 .button {
-  background: #04799c;
+  background: var(--color-prim);
   padding: 10px;
   font-size: 20px;
-  border-radius: 10%;
+  border-radius: 10px;
 }

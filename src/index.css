@@ -23,6 +23,44 @@ a:hover {
   color: #535bf2;
 }
 
+/* html {
+  background: linear-gradient(
+  146deg,
+  hsl(142deg 78% 39%) 0%,
+  hsl(156deg 100% 34%) 10%,
+  hsl(166deg 100% 33%) 20%,
+  hsl(178deg 100% 32%) 30%,
+  hsl(189deg 100% 36%) 40%,
+  hsl(197deg 100% 41%) 50%,
+  hsl(203deg 100% 45%) 60%,
+  hsl(208deg 100% 47%) 70%,
+  hsl(212deg 100% 48%) 80%,
+  hsl(215deg 100% 47%) 90%,
+  hsl(225deg 78% 49%) 100%
+  );
+} */
+
+/* html {
+  background: linear-gradient(
+    261deg,
+    hsl(197deg 100% 50%) 0%,
+  hsl(199deg 100% 54%) 16%,
+  hsl(202deg 100% 58%) 24%,
+  hsl(206deg 100% 63%) 30%,
+  hsl(212deg 100% 67%) 35%,
+  hsl(219deg 100% 71%) 40%,
+  hsl(228deg 100% 75%) 45%,
+  hsl(241deg 100% 78%) 50%,
+  hsl(255deg 100% 77%) 55%,
+  hsl(267deg 100% 75%) 60%,
+  hsl(279deg 88% 71%) 65%,
+  hsl(292deg 77% 66%) 70%,
+  hsl(304deg 75% 63%) 76%,
+  hsl(312deg 89% 62%) 84%,
+  hsl(319deg 100% 60%) 100%
+  );
+} */
+
 body {
   margin: 0;
   display: flex;
@@ -34,6 +72,9 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+h2 {
+  margin-block: 0.5em;
 }
 
 

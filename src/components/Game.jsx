@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Table from './Table'
+import { useStadistics } from '../hooks/useStadistics'
 import { TURNS } from '../assets/dictionary'
 import { User, Machine } from '../assets/svg'
 
@@ -8,6 +9,8 @@ export default function Game ({ currentTurn, setTurn, setSymbol, assign, firstTu
   const [match, setMatch] = useState(Array(9).fill(null))
   // Estado del ganador iniciado con false
   const [win, setWinner] = useState(false)
+  // Se obtiene el listado de partidas jugadas
+  const metrics = useStadistics(win, assign.current)
 
   // Se ejecuta al darle al boton 'Ir al inicio', se resetea el Turno y
   // el símbolo, obligando al usuario a seleccionar ambos de nuevo
@@ -27,9 +30,20 @@ export default function Game ({ currentTurn, setTurn, setSymbol, assign, firstTu
 
   return (
     <>
-      <Table currentTurn={currentTurn} setTurn={setTurn} assign={assign} match={match} setMatch={setMatch} win={win} setWinner={setWinner} ></Table>
+      <Table
+      currentTurn={currentTurn} setTurn={setTurn}
+      assign={assign}
+      match={match} setMatch={setMatch}
+      win={win} setWinner={setWinner}
+      ></Table>
 
       <TURN win={win} currentTurn={currentTurn} >Tu Turno!</TURN>
+
+      <div className='stadistics'>
+        <p className='block'>Juegos: {metrics.plays}</p>
+        <p className='block'>Ganaste: {metrics.won}</p>
+        <p className='block'>Perdiste: {metrics.loose}</p>
+      </div>
 
       <div className='buttons'>
         <div className='button' onClick={() => reset()}>Reiniciar</div>
@@ -50,16 +64,16 @@ function TURN ({ win, currentTurn }) {
   }
   let winner
   if (win && win === 1) {
-    winner = 'EMPATE!' // Cambia la leyenta a 'Empate'
-  } else winner = 'GANÓ: ' // Cambia la leyenda a un ganador
+    winner = 'Empate!' // Cambia la leyenta a 'Empate'
+  } else winner = 'Ganó: ' // Cambia la leyenda a un ganador
   if (!win) winner = 'Tu turno!' // Cambia la leyenda a 'Tu turno'
   return (
-    <section className='stadistics'>
-      <h2 className={currentTurn === TURNS.Machine && !win ? 'machine_turn' : ''}>{winner}</h2>
+    <section className='admin'>
+      <h2 className={currentTurn === TURNS.Machine && !win ? 'machine_turn' : '' + 'title'}>{winner}</h2>
 
       {
         win && win !== 1
-          ? printWin(currentTurn) // Imporime al ganador
+          ? printWin(currentTurn) // Imprime al ganador
           : ''
       }
     </section>
