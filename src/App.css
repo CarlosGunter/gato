@@ -68,8 +68,10 @@
 
 .stadistics {
   display:flex;
+  justify-content: center;
   gap: 15px;
   padding: 5px;
+  max-width: 60px;
 
   .block {
     font-size: 18px;
