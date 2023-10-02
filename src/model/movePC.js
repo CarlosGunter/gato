@@ -50,13 +50,12 @@ const started = (match, assign) => {
   const pcWin = [...possibleWin(WIN_COMBINATIONS, pcValues, userValues)]
   const userWin = [...possibleWin(WIN_COMBINATIONS, userValues, pcValues)]
 
-  // Se recuperan las posiciones donde se recuperan las intersecciones
+  // Se recuperan las posiciones donde existan intersecciones
   // de dos combos basandose en las posiciones donde un jugador
   // posea una posicion de un combo ganador
   // Se utiliza para definir una jugada trampa donde exista mas de una
   // posicion ganadora
-  // Solo en posible utilizarla cuando un jugador tenga por lo menos
-  // 2 jugadas
+  // Solo en posible utilizarla cuando un jugador tenga mas de 1 jugada
   const isTrick = (arr, positions, enemyPosition) => {
     // Se recuperan los combos ganadores donde el usuario posea
     // por lo menos una posicion
@@ -67,7 +66,7 @@ const started = (match, assign) => {
       if (p.length > 0) iOne.push(combo)
     })
 
-    // Filtra los combos donde el enemigo no contenga nunguna jugada
+    // Filtra los combos los cuales el enemigo no contenga nunguna jugada
     const isContentCombo = []
     iOne.forEach(trickCombo => {
       if (notInclude(trickCombo, enemyPosition).length === 3) {
@@ -144,9 +143,8 @@ const started = (match, assign) => {
     } else if (include(MIDDLES, userValues).length > 0) {
       // Evalua si la computadora posee su jugada junto a la del usuario
       if (restOfCombo(SQUARE, nullValues, 1).length === 1) {
-        // Obtiene las posiciones con dos valores nulos de un combo
-        // que intersecten con la primer jugada de la computadora
-        // Solo se evaluan los combos externos
+        // Obtiene las dos posiciones del combo de una orilla ganadora
+        // donde el usuario no contiene jugadas
         let goodTurn = restOfCombo(SQUARE, [...pcValues, ...userValues], 2)
         goodTurn = notInclude(goodTurn, userValues)
         // Selecciona entre el centro y los dos valores nulos antes obtenidos
@@ -190,7 +188,7 @@ const started = (match, assign) => {
       move = selRandom(userTrick) // Selecciona una jugada trampa
     }
   // Si cualquiera de las condiciones anteriores no se cumplen, se
-  // seleccionara aleatoriamente una posición valida
+  // seleccionará aleatoriamente una posición valida
   } else {
     move = selRandom(nullValues)
   }
@@ -240,7 +238,7 @@ const restOfCombo = (combos, ref, length) => {
   return rest.flat()
 }
 
-// Retorna aleatoriamente una posicion de un arreglo
+// Retorna aleatoriamente el valor de una posicion de un arreglo
 const selRandom = (arr) => {
   const i = Math.floor(Math.random() * arr.length)
   return arr[i]

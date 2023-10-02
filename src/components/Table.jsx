@@ -39,7 +39,7 @@ export default function Table ({ currentTurn, setTurn, assign, match, setMatch, 
     isWin ? setWinner(isWin) : setTurn(TURNS.Machine)
   }
 
-  // Funcion que define si hay un ganador
+  // Funcion que evalua si hay un ganador
   const checkWin = (game) => {
     // Evalua todas las posibles combinaciones ganadoras que contengan
     // el centro del tablero

@@ -7,7 +7,7 @@ import { User, Machine } from '../assets/svg'
 export default function Game ({ currentTurn, setTurn, setSymbol, assign, firstTurn }) {
   // Estado del tablero con 0 jugadas
   const [match, setMatch] = useState(Array(9).fill(null))
-  // Estado del ganador iniciado con false
+  // Estado del ganador, si el estado es 1 hay un empate
   const [win, setWinner] = useState(false)
   // Se obtiene el listado de partidas jugadas
   const metrics = useStadistics(win, assign.current)
@@ -64,7 +64,7 @@ function TURN ({ win, currentTurn }) {
   }
   let winner
   if (win && win === 1) {
-    winner = 'Empate!' // Cambia la leyenta a 'Empate'
+    winner = 'Empate!' // Cambia la leyenda a 'Empate'
   } else winner = 'Ganó: ' // Cambia la leyenda a un ganador
   if (!win) winner = 'Tu turno!' // Cambia la leyenda a 'Tu turno'
   return (
