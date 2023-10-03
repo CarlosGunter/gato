@@ -1,7 +1,11 @@
+// CHAVEZ ORTIZ SAUL DAVID
+// GUTIERREZ TREJO CARLOS ALBERTO
+// SALAZAR HERMOSILLO ALAM ABEL
+
 import { WIN_COMBINATIONS, CORNERS, MIDDLES, DIAGONALS, CROSS, SQUARE } from '../assets/dictionary'
 
 // Funcion principal
-// Retorna una el arreglo con la posicion que elgoritmo seleccionó
+// Retorna el arreglo con la posicion que elgoritmo seleccionó
 // Parametros: match(arreglo) es el tablero del juego, y
 // assign(objeto) es la asignacion del simbolo que posee cada jugador
 export const movePC = ({ match, assign }) => {

@@ -1,3 +1,7 @@
+// CHAVEZ ORTIZ SAUL DAVID
+// GUTIERREZ TREJO CARLOS ALBERTO
+// SALAZAR HERMOSILLO ALAM ABEL
+
 import { useState, useRef } from 'react'
 import Create from './components/Create'
 import Game from './components/Game'
