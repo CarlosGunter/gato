@@ -1,7 +1,3 @@
-// CHAVEZ ORTIZ SAUL DAVID
-// GUTIERREZ TREJO CARLOS ALBERTO
-// SALAZAR HERMOSILLO ALAM ABEL
-
 import { WIN_COMBINATIONS, CORNERS, MIDDLES, DIAGONALS, CROSS, SQUARE } from '../assets/dictionary'
 
 // Funcion principal
@@ -53,6 +49,35 @@ const started = (match, assign) => {
   // Se recuperan las posiciones ganadoras de la PC y el usuario
   const pcWin = [...possibleWin(WIN_COMBINATIONS, pcValues, userValues)]
   const userWin = [...possibleWin(WIN_COMBINATIONS, userValues, pcValues)]
+
+  // Crea una simulacion de una jugada adelantada donde evalua si esta provoca
+  // que se pueda realizar un truco o de lo contrario evalua si el usuario
+  // puede crear un truco con un determinado movimineto
+  const selectTurn = () => {
+    const turn = []
+    // Agrega las jugadas que crean un truco
+    nullValues.forEach(simulation => {
+      isTrick(
+        WIN_COMBINATIONS,
+        [simulation, ...pcValues],
+        userValues
+      ) && turn.push(simulation)
+    })
+
+    // Si no hay jugadas que pueden crear un truco, agrega las jugadas que el
+    // usuario puede hacer con el mismo fin
+    if (!turn) {
+      nullValues.forEach(simulation => {
+        isTrick(
+          WIN_COMBINATIONS,
+          [simulation, ...userValues],
+          pcValues
+        ) && turn.push(simulation)
+      })
+    }
+
+    return turn
+  }
 
   // Se recuperan las posiciones donde existan intersecciones
   // de dos combos basandose en las posiciones donde un jugador
@@ -115,52 +140,6 @@ const started = (match, assign) => {
       move = selRandom(goodTurn)
     }
 
-  // Evalua si la tercer jugada será realizada por la PC
-  } else if (pcValues.length === 1 && userValues.length === 1) {
-    // Evalua si la PC posee el centro
-    if (match[4] === assign.current.machine) {
-      // Evalua si el usuario posee un esquina
-      if (include(CORNERS, userValues).length > 0) {
-        move = selRandom(nullValues) // Selecciona caulquier posicion valida
-      } else {
-        // El usuario posee un medio
-        // Se obtiene el medio contrario al que el usuario posee
-        const badTurn = restOfCombo(CROSS, [4, ...userValues], 1)
-        // Se ingnoran los medios donde el usuario tiró y su contrario
-        const middle = notInclude(MIDDLES, [...badTurn, ...userValues])
-        // Selecciona cualquier esquina o cualquier medio
-        // anteriormente filtrado
-        move = selRandom([...CORNERS, ...middle])
-      }
-    // Evalua si el usuario posee el centro
-    } else if (match[4] === assign.current.user) {
-      // Selecciona la esquina contraria a al que posee la computadora
-      const goodTurn = restOfCombo(DIAGONALS, [4, ...pcValues], 1)
-      move = goodTurn[0]
-
-    // Evalua si el usuario posee una esquina
-    } else if (include(CORNERS, userValues).length > 0) {
-      // Selecciona cualquier esquina disponible
-      move = selRandom(include(CORNERS, nullValues))
-
-    // Evalua si el usuario posee un medio
-    } else if (include(MIDDLES, userValues).length > 0) {
-      // Evalua si la computadora posee su jugada junto a la del usuario
-      if (restOfCombo(SQUARE, nullValues, 1).length === 1) {
-        // Obtiene las dos posiciones del combo de una orilla ganadora
-        // donde el usuario no contiene jugadas
-        let goodTurn = restOfCombo(SQUARE, [...pcValues, ...userValues], 2)
-        goodTurn = notInclude(goodTurn, userValues)
-        // Selecciona entre el centro y los dos valores nulos antes obtenidos
-        move = selRandom([4, ...goodTurn])
-      // Se ejecuta en caso de que el la jugada que poseee el usuario no
-      // se encuentre junto a la de la computadora
-      } else {
-        // Selecciona cualquier posicion valida de las diagonales
-        move = selRandom(restOfCombo(DIAGONALS, pcValues, 3))
-      }
-    }
-
   // Evalua si la computadora posee jugadas ganadoras
   } else if (pcWin.length > 0) {
     move = selRandom(pcWin) // Selecciona una jugada ganadora
@@ -191,10 +170,12 @@ const started = (match, assign) => {
     } else {
       move = selRandom(userTrick) // Selecciona una jugada trampa
     }
-  // Si cualquiera de las condiciones anteriores no se cumplen, se
-  // seleccionará aleatoriamente una posición valida
+
+  // Se lleva a cabo una simulacion con una jugada adelantada y evalua si en
+  // viable realizar una jugada, en caso de no haber jugadas convenientes
+  // selecciona una jugada aleatoria en un espacio valido
   } else {
-    move = selRandom(nullValues)
+    move = selRandom(selectTurn() || nullValues)
   }
 
   // Se inserta en el arreglo de la partida la jugada de la computadora
