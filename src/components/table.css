@@ -1,17 +1,20 @@
-.table{
+.table {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   width: min-content;
 }
+
 .cell:nth-child(3n-1) {
   border-inline: solid 2px #fff;
 }
+
 .cell:nth-child(4),
 .cell:nth-child(5),
 .cell:nth-child(6) {
   border-block: solid 2px #fff;
 }
-.cell{
+
+.cell {
   width: 100px;
   height: 100px;
   cursor: default;
