@@ -101,3 +101,28 @@
   color: #fff;
   font-weight: 700;
 }
+
+.footer {
+  margin-top: 40px;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.github {
+  display: inline-block;
+  width: 50px;
+  color: inherit;
+  transition: color 200ms;
+
+  &:hover {
+    color: var(--color-prim);
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+  }
+}

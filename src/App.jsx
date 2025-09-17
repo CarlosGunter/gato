@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import Create from './components/Create'
 import Game from './components/Game'
 import './App.css'
-import { Hash } from './assets/svg'
+import { Hash, GitHubIcon } from './assets/svg'
 
 function App () {
   // Estado del turno
@@ -17,29 +17,37 @@ function App () {
   // Guarda el primer turno que seleccionó el usuario
   const firstTurn = useRef()
   return (
-    <main className='main'>
+    <div className='main'>
       <header>
         <h1 className='title'><Hash></Hash>Gato</h1>
       </header>
-      {
-        start
-          ? <Game // Si el turno y simbolo esta seleccionado
-            currentTurn={currentTurn}
-            setTurn={setTurn}
-            setSymbol={setSymbol}
-            assign={assign}
-            firstTurn={firstTurn}
-          ></Game>
-          : <Create // Si aun no se selecciona el turno o usuario
-            currentTurn={currentTurn}
-            setTurn={setTurn}
-            symbol={symbol}
-            setSymbol={setSymbol}
-            assign={assign}
-            firstTurn={firstTurn}
-          ></Create>
-      }
-    </main>
+      <main>
+        {
+          start
+            ? <Game // Si el turno y simbolo esta seleccionado
+              currentTurn={currentTurn}
+              setTurn={setTurn}
+              setSymbol={setSymbol}
+              assign={assign}
+              firstTurn={firstTurn}
+            ></Game>
+            : <Create // Si aun no se selecciona el turno o usuario
+              currentTurn={currentTurn}
+              setTurn={setTurn}
+              symbol={symbol}
+              setSymbol={setSymbol}
+              assign={assign}
+              firstTurn={firstTurn}
+            ></Create>
+        }
+      </main>
+      <footer className='footer'>
+        <p>Hecho por CarlosGunter</p>
+        <a href="https://github.com/CarlosGunter" target="_blank" rel="noopener noreferrer" aria-label="GitHub de CarlosGunter" className='github'>
+          <GitHubIcon />
+        </a>
+      </footer>
+    </div>
   )
 }
 
