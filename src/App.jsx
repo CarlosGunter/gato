@@ -31,7 +31,9 @@ function App () {
             firstTurn={firstTurn}
           ></Game>
           : <Create // Si aun no se selecciona el turno o usuario
+            currentTurn={currentTurn}
             setTurn={setTurn}
+            symbol={symbol}
             setSymbol={setSymbol}
             assign={assign}
             firstTurn={firstTurn}

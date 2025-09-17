@@ -1,7 +1,14 @@
 import { TURNS, SYMBOLS } from '../assets/dictionary.js'
 import { User, Machine, X, Circle } from '../assets/svg.jsx'
 
-export default function Create ({ setTurn, setSymbol, assign, firstTurn }) {
+export default function Create ({
+  currentTurn,
+  setTurn,
+  symbol,
+  setSymbol,
+  assign,
+  firstTurn
+}) {
   // Define la asignacion de simbolos de acuerdo al simbolo elegido
   // por el usuario
   function click (symb) {
@@ -26,36 +33,36 @@ export default function Create ({ setTurn, setSymbol, assign, firstTurn }) {
     <>
       <h2>¿Quién iniciará la partida?</h2>
       <section className='turn'>
-        <div className="cell_turn"
+        <div className={`cell_turn ${currentTurn === TURNS.User ? 'active' : ''}`}
         onClick={() => { // El usuario comenzará la partida
           firstTurn.current = TURNS.User
           setTurn(TURNS.User)
         }}>
-          <User></User>
+          <User />
         </div>
-        <div className="cell_turn"
+        <div className={`cell_turn ${currentTurn === TURNS.Machine ? 'active' : ''}`}
         onClick={() => { // La computadora comenzará la partida
           firstTurn.current = TURNS.Machine
           setTurn(TURNS.Machine)
         }}>
-          <Machine></Machine>
+          <Machine />
         </div>
       </section>
       <h2>Elige tu símbolo:</h2>
       <section className="turn">
-        <div className="cell_turn"
+        <div className={`cell_turn ${symbol === SYMBOLS.x ? 'active' : ''}`}
         onClick={() => { // El usuario elije 'x'
           setSymbol(SYMBOLS.x)
           click(SYMBOLS.x)
         }}>
-          <X></X>
+          <X />
         </div>
-        <div className="cell_turn"
+        <div className={`cell_turn ${symbol === SYMBOLS.o ? 'active' : ''}`}
         onClick={() => { // El usuario elije 'o'
           setSymbol(SYMBOLS.o)
           click(SYMBOLS.o)
         }}>
-          <Circle></Circle>
+          <Circle />
         </div>
       </section>
     </>

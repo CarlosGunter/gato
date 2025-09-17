@@ -42,9 +42,10 @@
 
   display: grid;
   place-items:center;
-  transition: 100ms;
+  cursor: pointer;
+  transition: background 200ms;
 
-  :hover {
+  &:hover {
     background: var(--color-prim);
   }
 }
@@ -93,4 +94,10 @@
   padding: 10px;
   font-size: 20px;
   border-radius: 10px;
+}
+
+.active {
+  background: var(--color-prim);
+  color: #fff;
+  font-weight: 700;
 }
