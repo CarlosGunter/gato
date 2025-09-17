@@ -40,9 +40,18 @@ export default function Game ({ currentTurn, setTurn, setSymbol, assign, firstTu
       <TURN win={win} currentTurn={currentTurn} >Tu Turno!</TURN>
 
       <div className='stadistics'>
-        <p className='block'>Juegos: {metrics.plays}</p>
-        <p className='block'>Ganaste: {metrics.won}</p>
-        <p className='block'>Perdiste: {metrics.loose}</p>
+        <div className='block'>
+          <p>Juegos</p>
+          <span>{metrics.plays}</span>
+        </div>
+        <div className='block'>
+          <p>Ganaste</p>
+          <span>{metrics.won}</span>
+        </div>
+        <div className='block'>
+          <p>Perdiste</p>
+          <span>{metrics.loose}</span>
+        </div>
       </div>
 
       <div className='buttons'>

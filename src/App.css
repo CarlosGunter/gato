@@ -16,6 +16,8 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   background: linear-gradient(91deg, #42d392, #647eff);
+  margin: 0;
+  padding: 20px;
 
   & .icon {
     width: 45px;
@@ -64,20 +66,26 @@
 }
 .machine_turn {
   color:#696969;
+  margin: 0;
+  padding: 20px;
 }
 
 .stadistics {
   display:flex;
   justify-content: center;
+  align-items: center;
   gap: 10px;
-  padding: 5px;
+  padding: 15px;
 
   .block {
     font-size: 18px;
-    max-width: 62px;
-    padding: 15px;
+    padding: 10px;
     border: solid 1.5px var(--color-prim);
     border-radius: 15px;
+  }
+
+  .block p {
+    margin: 0;
   }
   
 }
@@ -88,12 +96,18 @@
   justify-content: center;
   gap: 15px;
   cursor: default;
+  margin-top: 25px;
 }
 .button {
   background: var(--color-prim);
   padding: 10px;
   font-size: 20px;
   border-radius: 10px;
+  transition: background 200ms;
+
+  &:hover {
+    background: #196cbe;
+  }
 }
 
 .active {
