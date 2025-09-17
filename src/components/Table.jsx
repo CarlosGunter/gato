@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { X, Circle } from '../assets/svg'
-import { TURNS, SYMBOLS } from '../assets/dictionary'
-import { movePC } from '../model/movePC'
-import './table.css'
+import { TURNS, SYMBOLS } from '../lib/dictionary'
+import { movePC } from '../lib/movePC'
+import './Table.css'
 
 export default function Table ({ currentTurn, setTurn, assign, match, setMatch, win, setWinner }) {
   // Bloque de codigo que define cuando la computadora le toca hacer

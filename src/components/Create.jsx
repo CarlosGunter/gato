@@ -1,4 +1,4 @@
-import { TURNS, SYMBOLS } from '../assets/dictionary.js'
+import { TURNS, SYMBOLS } from '../lib/dictionary.js'
 import { User, Machine, X, Circle } from '../assets/svg.jsx'
 
 export default function Create ({

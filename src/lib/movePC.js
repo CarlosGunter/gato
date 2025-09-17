@@ -1,4 +1,4 @@
-import { WIN_COMBINATIONS, CORNERS, MIDDLES, DIAGONALS, CROSS, SQUARE } from '../assets/dictionary'
+import { WIN_COMBINATIONS, CORNERS, MIDDLES, DIAGONALS, CROSS, SQUARE } from './dictionary'
 
 // Funcion principal
 // Retorna el arreglo con la posicion que elgoritmo seleccionó

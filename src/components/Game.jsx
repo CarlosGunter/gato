@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Table from './Table'
 import { useStadistics } from '../hooks/useStadistics'
-import { TURNS } from '../assets/dictionary'
+import { TURNS } from '../lib/dictionary'
 import { User, Machine } from '../assets/svg'
 
 export default function Game ({ currentTurn, setTurn, setSymbol, assign, firstTurn }) {
