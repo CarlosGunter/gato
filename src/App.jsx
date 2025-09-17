@@ -43,7 +43,7 @@ function App () {
       </main>
       <footer className='footer'>
         <p>Hecho por CarlosGunter</p>
-        <a href="https://github.com/CarlosGunter" target="_blank" rel="noopener noreferrer" aria-label="GitHub de CarlosGunter" className='github'>
+        <a href="https://github.com/CarlosGunter/gato" target="_blank" rel="noopener noreferrer" aria-label="GitHub de CarlosGunter" className='github'>
           <GitHubIcon />
         </a>
       </footer>
